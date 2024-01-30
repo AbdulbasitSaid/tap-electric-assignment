@@ -1,8 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const primaryColor = Color(0xff2c2c2c);
 const blackColor = Colors.black;
@@ -78,5 +76,3 @@ Widget customListTile({
     ),
   );
 }
-
-
