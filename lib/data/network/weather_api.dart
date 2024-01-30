@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' as http;
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:weathet_app/data/models/weather_forecast_hourly.dart';
 import 'package:weathet_app/utils/constants.dart';
@@ -15,8 +16,8 @@ class WeatherApi {
 
   final http.HttpClient client;
 
-  static const _host =
-      Constants.WEATHER_BASE_SCHEME + Constants.WEATHER_BASE_URL_DOMAIN;
+  static final _host =
+      dotenv.env["WEATHER_BASE_SCHEME"]! + dotenv.env["WEATHER_BASE_URL"]!;
 
   Uri _makeUri(String path, [Map<String, dynamic>? parameters]) {
     final uri = Uri.parse('$_host$path');
@@ -32,7 +33,7 @@ class WeatherApi {
 
     if (cityName != null && cityName.isNotEmpty) {
       parameters = {
-        'key': Constants.WEATHER_APP_ID,
+        'key': dotenv.env["WEATHER_APP_ID"]!,
         'q': cityName,
         'days': '1',
       };
@@ -43,14 +44,14 @@ class WeatherApi {
             '${position.latitude},${position.longitude}';
 
         parameters = {
-          'key': Constants.WEATHER_APP_ID,
+          'key': dotenv.env["WEATHER_APP_ID"]!,
           'q': fullLocation,
           'days': '1',
         };
       });
     }
 
-    final url = _makeUri(Constants.WEATHER_FORECAST_PATH, parameters);
+    final url = _makeUri(dotenv.env["WEATHER_FORECAST_PATH"]!, parameters);
 
     final request = await client.getUrl(url);
     final response = await request.close();

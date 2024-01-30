@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:weathet_app/di/di.dart';
 import 'package:weathet_app/ui/widgets/app/my_app.dart';
@@ -17,6 +18,7 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  await dotenv.load(fileName: ".env");
   setupDependencies(Environment.dev);
   runApp(const MyApp());
 }
