@@ -5,6 +5,7 @@ import 'package:weathet_app/di/di.dart';
 import 'package:weathet_app/features/weather/weather.dart';
 import 'package:weathet_app/utils/constants.dart';
 import 'package:weathet_app/utils/helpers.dart';
+import 'package:flutter/gestures.dart';
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({super.key});
@@ -20,24 +21,34 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     super.initState();
   }
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocConsumer<WeatherCubit, WeatherState>(
-        listener: (context, state) {
-          if (state is WeatherDataError) {
-            showSnackBar(context, state.error);
-          }
+      body: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        color: primaryColor,
+        onRefresh: () async {
+          getIt<WeatherCubit>().onSubmitLocate();
         },
-        builder: (context, state) {
-          if (state is WeatherCubitLoading) {
-            return const Center(
-              child: SpinKitCubeGrid(color: Colors.blue, size: 80),
-            );
-          }
-          return const ViewWidget();
-        },
+        child: BlocConsumer<WeatherCubit, WeatherState>(
+          listener: (context, state) {
+            if (state is WeatherDataError) {
+              showSnackBar(context, state.error);
+            }
+          },
+          builder: (context, weatherState) {
+            if (weatherState is WeatherCubitLoading) {
+              return const Center(
+                child: SpinKitCubeGrid(color: Colors.blue, size: 80),
+              );
+            }
+            return const ViewWidget();
+          },
+        ),
       ),
     );
   }
@@ -51,7 +62,7 @@ class ViewWidget extends StatelessWidget {
     final weatherState = context.watch<WeatherCubit>().state;
     return SafeArea(
       child: ListView(
-        physics: const BouncingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         children: [
           const SearchWidget(),
           const SizedBox(height: 30),
