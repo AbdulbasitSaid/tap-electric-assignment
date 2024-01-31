@@ -5,11 +5,10 @@ class Forecastday extends Equatable {
   final String? date;
   final num? dateEpoch;
   final Day? day;
-  final Astro? astro;
   final List<Hour>? hour;
 
   const Forecastday(
-      {this.date, this.dateEpoch, this.day, this.astro, this.hour});
+      {this.date, this.dateEpoch, this.day,  this.hour});
 
   factory Forecastday.fromJson(Map<String, dynamic> json) =>
       _$ForecastdayFromJson(json);

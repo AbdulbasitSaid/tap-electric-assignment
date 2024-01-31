@@ -6,7 +6,7 @@ class Hour {
   final String? time;
   final double? tempC;
   final double? tempF;
-  final num? isDay;
+
   final Condition? condition;
   final double? windMph;
   final double? windKph;
@@ -14,62 +14,23 @@ class Hour {
   final String? windDir;
   final num? pressureMb;
   final double? pressureIn;
-  final double? precipMm;
-  final double? precipIn;
-  final num? humidity;
-  final num? cloud;
-  final double? feelslikeC;
-  final double? feelslikeF;
-  final double? windchillC;
-  final double? windchillF;
-  final double? heatindexC;
-  final double? heatindexF;
-  final double? dewpointC;
-  final double? dewpointF;
-  final num? willItRain;
-  final num? chanceOfRain;
-  final num? willItSnow;
-  final num? chanceOfSnow;
-  final num? visKm;
-  final num? visMiles;
-  final double? gustMph;
-  final double? gustKph;
-  final num? uv;
 
-  Hour(
-      {this.timeEpoch,
-      this.time,
-      this.tempC,
-      this.tempF,
-      this.isDay,
-      this.condition,
-      this.windMph,
-      this.windKph,
-      this.windDegree,
-      this.windDir,
-      this.pressureMb,
-      this.pressureIn,
-      this.precipMm,
-      this.precipIn,
-      this.humidity,
-      this.cloud,
-      this.feelslikeC,
-      this.feelslikeF,
-      this.windchillC,
-      this.windchillF,
-      this.heatindexC,
-      this.heatindexF,
-      this.dewpointC,
-      this.dewpointF,
-      this.willItRain,
-      this.chanceOfRain,
-      this.willItSnow,
-      this.chanceOfSnow,
-      this.visKm,
-      this.visMiles,
-      this.gustMph,
-      this.gustKph,
-      this.uv});
+  final num? humidity;
+
+  Hour({
+    this.timeEpoch,
+    this.time,
+    this.tempC,
+    this.tempF,
+    this.condition,
+    this.windMph,
+    this.windKph,
+    this.windDegree,
+    this.windDir,
+    this.pressureMb,
+    this.pressureIn,
+    this.humidity,
+  });
 
   String? get timeToHour {
     final DateTime dateTime = DateTime.parse(time!);
