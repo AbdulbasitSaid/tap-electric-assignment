@@ -1,27 +1,16 @@
-
-
 part of 'weather_models.dart';
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Condition extends Equatable {
-  String? text;
-  String? icon;
-  num? code;
+  final String? text;
+  final String? icon;
+  final num? code;
 
-  Condition({this.text, this.icon, this.code});
+  const Condition({this.text, this.icon, this.code});
 
-  Condition.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
-    icon = json['icon'];
-    code = json['code'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['text'] = text;
-    data['icon'] = icon;
-    data['code'] = code;
-    return data;
-  }
+  factory Condition.fromJson(Map<String, dynamic> json) =>
+      _$ConditionFromJson(json);
+  Map<String, dynamic> toJson() => _$ConditionToJson(this);
 
   @override
   List<Object?> get props => [code];

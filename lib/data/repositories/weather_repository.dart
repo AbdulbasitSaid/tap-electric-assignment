@@ -4,8 +4,6 @@ import 'package:weathet_app/data/network/weather_api.dart';
 
 import '../models/weather/weather_models.dart';
 
-
-
 @LazySingleton()
 class WeatherRepository {
   final WeatherRemoteDataSource remoteDataSource;

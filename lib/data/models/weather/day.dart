@@ -1,28 +1,28 @@
+part of 'weather_models.dart';
 
-part of weather;
-
+@JsonSerializable()
 class Day {
-  double? maxtempC;
-  double? maxtempF;
-  num? mintempC;
-  double? mintempF;
-  double? avgtempC;
-  double? avgtempF;
-  double? maxwindMph;
-  double? maxwindKph;
-  double? totalprecipMm;
-  double? totalprecipIn;
-  double? avgvisKm;
-  num? avgvisMiles;
-  num? avghumidity;
-  num? dailyWillItRain;
-  num? dailyChanceOfRain;
-  num? dailyWillItSnow;
-  num? dailyChanceOfSnow;
-  Condition? condition;
-  num? uv;
+  final double? maxtempC;
+  final double? maxtempF;
+  final num? mintempC;
+  final double? mintempF;
+  final double? avgtempC;
+  final double? avgtempF;
+  final double? maxwindMph;
+  final double? maxwindKph;
+  final double? totalprecipMm;
+  final double? totalprecipIn;
+  final double? avgvisKm;
+  final num? avgvisMiles;
+  final num? avghumidity;
+  final num? dailyWillItRain;
+  final num? dailyChanceOfRain;
+  final num? dailyWillItSnow;
+  final num? dailyChanceOfSnow;
+  final Condition? condition;
+  final num? uv;
 
-  Day(
+  const Day(
       {this.maxtempC,
       this.maxtempF,
       this.mintempC,
@@ -43,54 +43,6 @@ class Day {
       this.condition,
       this.uv});
 
-  Day.fromJson(Map<String, dynamic> json) {
-    maxtempC = json['maxtemp_c'];
-    maxtempF = json['maxtemp_f'];
-    mintempC = json['mintemp_c'];
-    mintempF = json['mintemp_f'];
-    avgtempC = json['avgtemp_c'];
-    avgtempF = json['avgtemp_f'];
-    maxwindMph = json['maxwind_mph'];
-    maxwindKph = json['maxwind_kph'];
-    totalprecipMm = json['totalprecip_mm'];
-    totalprecipIn = json['totalprecip_in'];
-    avgvisKm = json['avgvis_km'];
-    avgvisMiles = json['avgvis_miles'];
-    avghumidity = json['avghumidity'];
-    dailyWillItRain = json['daily_will_it_rain'];
-    dailyChanceOfRain = json['daily_chance_of_rain'];
-    dailyWillItSnow = json['daily_will_it_snow'];
-    dailyChanceOfSnow = json['daily_chance_of_snow'];
-    condition = json['condition'] != null
-        ? Condition.fromJson(json['condition'])
-        : null;
-    uv = json['uv'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['maxtemp_c'] = maxtempC;
-    data['maxtemp_f'] = maxtempF;
-    data['mintemp_c'] = mintempC;
-    data['mintemp_f'] = mintempF;
-    data['avgtemp_c'] = avgtempC;
-    data['avgtemp_f'] = avgtempF;
-    data['maxwind_mph'] = maxwindMph;
-    data['maxwind_kph'] = maxwindKph;
-    data['totalprecip_mm'] = totalprecipMm;
-    data['totalprecip_in'] = totalprecipIn;
-    data['avgvis_km'] = avgvisKm;
-    data['avgvis_miles'] = avgvisMiles;
-    data['avghumidity'] = avghumidity;
-    data['daily_will_it_rain'] = dailyWillItRain;
-    data['daily_chance_of_rain'] = dailyChanceOfRain;
-    data['daily_will_it_snow'] = dailyWillItSnow;
-    data['daily_chance_of_snow'] = dailyChanceOfSnow;
-    if (condition != null) {
-      data['condition'] = condition!.toJson();
-    }
-    data['uv'] = uv;
-    return data;
-  }
+  factory Day.fromJson(Map<String, dynamic> json) => _$DayFromJson(json);
+  Map<String, dynamic> toJson() => _$DayToJson(this);
 }
-
