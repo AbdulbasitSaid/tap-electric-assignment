@@ -1,7 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:weathet_app/data/models/base/result/result.dart';
-import 'package:weathet_app/data/models/weather_forecast_hourly.dart';
 import 'package:weathet_app/data/network/weather_api.dart';
+
+import '../models/weather/weather_models.dart';
 
 @LazySingleton()
 class WeatherRepository {
@@ -11,8 +12,7 @@ class WeatherRepository {
     required this.remoteDataSource,
   });
 
-  Future<Result<WeatherForecastModel, Failure>> getWeather(
-      {String? city}) async {
+  Future<Result<WeatherForecast, Failure>> getWeather({String? city}) async {
     final response = await remoteDataSource.getWeather(city: city);
     return response.fold(
       onSuccess: (response) => SuccessResult(response),
@@ -29,8 +29,7 @@ class WeatherRemoteDataSource {
 
   final WeatherApi weatherApi;
 
-  Future<Result<WeatherForecastModel, Failure>> getWeather(
-      {String? city}) async {
+  Future<Result<WeatherForecast, Failure>> getWeather({String? city}) async {
     try {
       final response = await weatherApi.fetchWeatherForecast(cityName: city);
       if (response.current == null) {
