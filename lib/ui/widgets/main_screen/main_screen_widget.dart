@@ -7,7 +7,7 @@ import 'package:weathet_app/utils/constants.dart';
 import 'package:weathet_app/utils/helpers.dart';
 
 class MainScreenWidget extends StatefulWidget {
-  const MainScreenWidget({Key? key}) : super(key: key);
+  const MainScreenWidget({super.key});
 
   @override
   State<MainScreenWidget> createState() => _MainScreenWidgetState();
@@ -48,21 +48,45 @@ class ViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Stack(
+    final state = context.watch<WeatherCubit>().state;
+    return SafeArea(
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
-          SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SearchWidget(),
-                SizedBox(height: 70),
-                CityInfoWidget(),
-                SizedBox(height: 15),
-              ],
+          const SearchWidget(),
+          const SizedBox(height: 70),
+          const CityInfoWidget(),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 300,
+            child: ListView.separated(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) => const SizedBox(width: 12),
+              itemCount:
+                  state.forecastObject!.forecast!.forecastday![0].hour!.length,
+              itemBuilder: (itemBuilder, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      appText(
+                        size: 16,
+                        text:
+                            '${state.forecastObject?.forecast?.forecastday?[0].hour?[index].timeToHour}',
+                      ),
+                      const SizedBox(height: 16),
+                      appText(
+                          size: 18,
+                          text:
+                              "${state.forecastObject?.forecast?.forecastday?[0].hour?[index].tempC}°"),
+                    ],
+                  ),
+                );
+              },
             ),
-          ),
+          )
         ],
       ),
     );
@@ -70,7 +94,7 @@ class ViewWidget extends StatelessWidget {
 }
 
 class CityInfoWidget extends StatelessWidget {
-  const CityInfoWidget({Key? key}) : super(key: key);
+  const CityInfoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +120,7 @@ class CityInfoWidget extends StatelessWidget {
                 ),
                 RotationTransition(
                   turns: AlwaysStoppedAnimation(
-                      (state.forecastObject?.current?.windDegree ?? 0) / 360),
+                      (state.forecastObject?.current?.windDegree ?? 0) / 45),
                   child: const Icon(Icons.north, color: primaryColor),
                 )
               ],
@@ -109,6 +133,10 @@ class CityInfoWidget extends StatelessWidget {
                   size: 70,
                   text: '${state.forecastObject?.current?.tempC?.round()}°',
                 ),
+                appText(
+                    size: 30,
+                    color: Colors.black45,
+                    text: '${state.forecastObject?.current?.tempF?.round()}°')
               ],
             ),
           ],

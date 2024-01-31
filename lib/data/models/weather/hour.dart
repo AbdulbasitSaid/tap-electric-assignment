@@ -1,5 +1,3 @@
-
-
 part of 'weather_models.dart';
 
 class Hour {
@@ -71,6 +69,15 @@ class Hour {
       this.gustMph,
       this.gustKph,
       this.uv});
+
+  String? get timeToHour {
+    final DateTime dateTime = DateTime.parse(time!);
+    int hour = dateTime.hour;
+    String amPm = hour >= 12 ? 'pm' : 'am';
+    hour = hour % 12;
+    hour = hour == 0 ? 12 : hour;
+    return '$hour $amPm';
+  }
 
   Hour.fromJson(Map<String, dynamic> json) {
     timeEpoch = json['time_epoch'];
