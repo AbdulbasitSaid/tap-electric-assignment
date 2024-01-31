@@ -26,13 +26,13 @@ class ForecastHours extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 appText(
-                  size: 16,
+                  size: 12,
                   text:
                       '${state.forecastObject?.forecast?.forecastday?[0].hour?[index].timeToHour}',
                 ),
                 const SizedBox(height: 16),
                 appText(
-                    size: 18,
+                    size: 16,
                     text:
                         "${state.forecastObject?.forecast?.forecastday?[0].hour?[index].tempC}°"),
               ],

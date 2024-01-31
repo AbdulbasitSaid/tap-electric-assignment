@@ -57,14 +57,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
                   const Search(),
-                  const SizedBox(height: 30),
                   CityInfo(
                     state: weatherState,
                   ),
-                  const SizedBox(height: 16),
                   ForecastHours(state: weatherState),
                   WindInformation(weatherState: weatherState),
-                  const SizedBox(height: 16),
                   BarometerInfo(weatherState: weatherState),
                 ],
               ),

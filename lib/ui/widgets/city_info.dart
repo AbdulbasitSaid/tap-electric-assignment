@@ -13,12 +13,11 @@ class CityInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         url != null ? Image.network(url, scale: 1.2) : const SizedBox(),
-        const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             appText(
-              size: 30,
+              size: 24,
               text: '${state.forecastObject?.location?.name}',
               isBold: FontWeight.bold,
               color: primaryColor,
@@ -35,7 +34,7 @@ class CityInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             appText(
-              size: 70,
+              size: 60,
               text: '${state.forecastObject?.current?.tempC?.round()}°',
             ),
             appText(

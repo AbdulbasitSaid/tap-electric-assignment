@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:weathet_app/features/weather/weather.dart';
+import 'package:weathet_app/ui/widgets/app_reach_text.dart';
+import 'package:weathet_app/ui/widgets/decorated_card.dart';
 import 'package:weathet_app/utils/constants.dart';
 
 class BarometerInfo extends StatelessWidget {
@@ -23,43 +25,62 @@ class BarometerInfo extends StatelessWidget {
               text: "Barometer",
               isBold: FontWeight.bold,
             ),
-            Column(children: [
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.thermostat_outlined, color: primaryColor),
-                  appText(
-                    size: 18,
-                    text:
-                        'Temperature: ${weatherState.forecastObject?.current?.tempC} °C',
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.opacity, color: primaryColor),
-                  appText(
-                    size: 18,
-                    text:
-                        'Humidity: ${weatherState.forecastObject?.current?.humidity} °%',
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Icon(Icons.speed, color: primaryColor),
-                  appText(
-                    size: 18,
-                    text:
-                        'Pressure: ${weatherState.forecastObject?.current?.pressureMb} hPa',
-                  ),
-                ],
-              ),
-            ])
+            const SizedBox(height: 4),
+            DecoratedCard(
+              child: Column(children: [
+                BarometerItem(
+                  icon: const Icon(Icons.thermostat, color: Color(0xffFF9700)),
+                  title: 'Temperature: ',
+                  value: '${weatherState.forecastObject?.current?.tempC}',
+                  unit: '°C',
+                ),
+                const SizedBox(height: 24),
+                BarometerItem(
+                    icon: const Icon(
+                      Icons.water_drop_outlined,
+                      color: Colors.black54,
+                    ),
+                    title: 'Humidity: ',
+                    value: '${weatherState.forecastObject?.current?.humidity}',
+                    unit: '%'),
+                const SizedBox(height: 24),
+                BarometerItem(
+                    icon: const Icon(
+                      Icons.speed,
+                      color: Color(0xffE47373),
+                    ),
+                    title: 'Pressure: ',
+                    value:
+                        '${weatherState.forecastObject?.current?.pressureMb}',
+                    unit: 'hPa'),
+              ]),
+            )
           ],
         ));
+  }
+}
+
+class BarometerItem extends StatelessWidget {
+  const BarometerItem({
+    super.key,
+    this.title,
+    this.value,
+    this.unit,
+    required this.icon,
+  });
+  final String? title;
+  final String? value;
+  final String? unit;
+  final Icon icon;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        icon,
+        const SizedBox(width: 20),
+        AppReachText(title: '$title', value: "$value", unit: "$unit")
+      ],
+    );
   }
 }
