@@ -5,22 +5,19 @@ import 'package:weathet_app/di/di.dart';
 import 'package:weathet_app/features/weather/weather.dart';
 import 'package:weathet_app/ui/widgets/barometer_info.dart';
 import 'package:weathet_app/ui/widgets/city_info.dart';
-import 'package:weathet_app/ui/widgets/decorated_card.dart';
 import 'package:weathet_app/ui/widgets/forecast_hours.dart';
 import 'package:weathet_app/ui/widgets/search.dart';
 import 'package:weathet_app/ui/widgets/wind_information.dart';
 import 'package:weathet_app/utils/constants.dart';
-import 'package:weathet_app/utils/helpers.dart';
-import 'package:flutter/gestures.dart';
 
-class MainScreenWidget extends StatefulWidget {
-  const MainScreenWidget({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<MainScreenWidget> createState() => _MainScreenWidgetState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenWidgetState extends State<MainScreenWidget> {
+class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     getIt<WeatherCubit>().onSubmitLocate();
