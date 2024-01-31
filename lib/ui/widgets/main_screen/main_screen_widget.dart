@@ -48,100 +48,152 @@ class ViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<WeatherCubit>().state;
+    final weatherState = context.watch<WeatherCubit>().state;
     return SafeArea(
       child: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           const SearchWidget(),
-          const SizedBox(height: 70),
-          const CityInfoWidget(),
+          const SizedBox(height: 30),
+          CityInfoWidget(
+            state: weatherState,
+          ),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 300,
-            child: ListView.separated(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) => const SizedBox(width: 12),
-              itemCount:
-                  state.forecastObject!.forecast!.forecastday![0].hour!.length,
-              itemBuilder: (itemBuilder, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      appText(
-                        size: 16,
-                        text:
-                            '${state.forecastObject?.forecast?.forecastday?[0].hour?[index].timeToHour}',
-                      ),
-                      const SizedBox(height: 16),
-                      appText(
-                          size: 18,
-                          text:
-                              "${state.forecastObject?.forecast?.forecastday?[0].hour?[index].tempC}°"),
-                    ],
-                  ),
-                );
-              },
-            ),
-          )
+          ForecastHours(state: weatherState),
+          WindInformation(weatherState: weatherState)
         ],
       ),
     );
   }
 }
 
-class CityInfoWidget extends StatelessWidget {
-  const CityInfoWidget({super.key});
+class WindInformation extends StatelessWidget {
+  const WindInformation({
+    super.key,
+    required this.weatherState,
+  });
+
+  final WeatherState weatherState;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WeatherCubit, WeatherState>(
-      builder: (context, state) {
-        if (state is WeatherSearchLoading) {
-          return const SpinKitCubeGrid(color: Colors.blue, size: 80);
-        }
-        final String? url = makeUri(state.forecastObject);
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          appText(
+            size: 32,
+            text: 'Wind',
+            isBold: FontWeight.bold,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // material wind icon
+              const Icon(Icons.wb_sunny, color: primaryColor),
+              appText(
+                size: 18,
+                text:
+                    '${weatherState.forecastObject?.current?.windKph} km/h',
+              ),
+              appText(
+                size: 18,
+                text: '${weatherState.forecastObject?.current?.windDir}°',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ForecastHours extends StatelessWidget {
+  const ForecastHours({
+    super.key,
+    required this.state,
+  });
+
+  final WeatherState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: ListView.separated(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (context, index) => const SizedBox(width: 12),
+        itemCount: state.forecastObject!.forecast!.forecastday![0].hour!.length,
+        itemBuilder: (itemBuilder, index) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                appText(
+                  size: 16,
+                  text:
+                      '${state.forecastObject?.forecast?.forecastday?[0].hour?[index].timeToHour}',
+                ),
+                const SizedBox(height: 16),
+                appText(
+                    size: 18,
+                    text:
+                        "${state.forecastObject?.forecast?.forecastday?[0].hour?[index].tempC}°"),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class CityInfoWidget extends StatelessWidget {
+  const CityInfoWidget({super.key, required this.state});
+  final WeatherState state;
+  @override
+  Widget build(BuildContext context) {
+    final String? url = makeUri(state.forecastObject);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        url != null ? Image.network(url, scale: 1.2) : const SizedBox(),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            url != null ? Image.network(url, scale: 1.2) : const SizedBox(),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                appText(
-                  size: 30,
-                  text: '${state.forecastObject?.location?.name}',
-                  isBold: FontWeight.bold,
-                  color: primaryColor,
-                ),
-                RotationTransition(
-                  turns: AlwaysStoppedAnimation(
-                      (state.forecastObject?.current?.windDegree ?? 0) / 45),
-                  child: const Icon(Icons.north, color: primaryColor),
-                )
-              ],
+            appText(
+              size: 30,
+              text: '${state.forecastObject?.location?.name}',
+              isBold: FontWeight.bold,
+              color: primaryColor,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                appText(
-                  size: 70,
-                  text: '${state.forecastObject?.current?.tempC?.round()}°',
-                ),
-                appText(
-                    size: 30,
-                    color: Colors.black45,
-                    text: '${state.forecastObject?.current?.tempF?.round()}°')
-              ],
-            ),
+            RotationTransition(
+              turns: AlwaysStoppedAnimation(
+                  (state.forecastObject?.current?.windDegree ?? 0) / 360),
+              child: const Icon(Icons.north, color: primaryColor),
+            )
           ],
-        );
-      },
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            appText(
+              size: 70,
+              text: '${state.forecastObject?.current?.tempC?.round()}°',
+            ),
+            appText(
+                size: 30,
+                color: Colors.black45,
+                text: '${state.forecastObject?.current?.tempF?.round()}°')
+          ],
+        ),
+      ],
     );
   }
 }
