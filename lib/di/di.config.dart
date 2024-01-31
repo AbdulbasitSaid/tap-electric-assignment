@@ -12,10 +12,12 @@ import 'dart:io' as _i3;
 
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:weathet_app/data/network/weather_api.dart' as _i4;
-import 'package:weathet_app/data/repositories/weather_repository.dart' as _i5;
-import 'package:weathet_app/di/di_module.dart' as _i7;
-import 'package:weathet_app/features/weather/weather.dart' as _i6;
+import 'package:weathet_app/data/network/weather_api.dart' as _i5;
+import 'package:weathet_app/data/repositories/weather_repository.dart' as _i6;
+import 'package:weathet_app/di/di_module.dart' as _i8;
+import 'package:weathet_app/features/weather/cubits/temprature_scale_preference_cubit.dart'
+    as _i4;
+import 'package:weathet_app/features/weather/cubits/weather.dart' as _i7;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -30,19 +32,21 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final httpClientModule = _$HttpClientModule();
     gh.lazySingleton<_i3.HttpClient>(() => httpClientModule.httpClient);
-    gh.factory<_i4.WeatherApi>(
-      () => _i4.WeatherApi(client: gh<_i3.HttpClient>()),
+    gh.lazySingleton<_i4.TemperatureScalePreferenceCubit>(
+        () => _i4.TemperatureScalePreferenceCubit());
+    gh.factory<_i5.WeatherApi>(
+      () => _i5.WeatherApi(client: gh<_i3.HttpClient>()),
       instanceName: 'WeatherApi',
     );
-    gh.lazySingleton<_i5.WeatherRemoteDataSource>(() =>
-        _i5.WeatherRemoteDataSource(
-            weatherApi: gh<_i4.WeatherApi>(instanceName: 'WeatherApi')));
-    gh.lazySingleton<_i5.WeatherRepository>(() => _i5.WeatherRepository(
-        remoteDataSource: gh<_i5.WeatherRemoteDataSource>()));
-    gh.lazySingleton<_i6.WeatherCubit>(
-        () => _i6.WeatherCubit(repository: gh<_i5.WeatherRepository>()));
+    gh.lazySingleton<_i6.WeatherRemoteDataSource>(() =>
+        _i6.WeatherRemoteDataSource(
+            weatherApi: gh<_i5.WeatherApi>(instanceName: 'WeatherApi')));
+    gh.lazySingleton<_i6.WeatherRepository>(() => _i6.WeatherRepository(
+        remoteDataSource: gh<_i6.WeatherRemoteDataSource>()));
+    gh.lazySingleton<_i7.WeatherCubit>(
+        () => _i7.WeatherCubit(repository: gh<_i6.WeatherRepository>()));
     return this;
   }
 }
 
-class _$HttpClientModule extends _i7.HttpClientModule {}
+class _$HttpClientModule extends _i8.HttpClientModule {}

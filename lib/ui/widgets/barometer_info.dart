@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:weathet_app/features/weather/weather.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weathet_app/features/weather/cubits/temprature_scale_preference_cubit.dart';
+import 'package:weathet_app/features/weather/cubits/weather.dart';
 import 'package:weathet_app/ui/widgets/app_reach_text.dart';
 import 'package:weathet_app/ui/widgets/decorated_card.dart';
 import 'package:weathet_app/utils/constants.dart';
@@ -15,6 +17,8 @@ class BarometerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final temperatureScalePreferenceState =
+        context.watch<TemperatureScalePreferenceCubit>();
     return Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -31,8 +35,9 @@ class BarometerInfo extends StatelessWidget {
                 BarometerItem(
                   icon: const Icon(Icons.thermostat, color: Color(0xffFF9700)),
                   title: 'Temperature: ',
-                  value: '${weatherState.forecastObject?.current?.tempC}',
-                  unit: '°C',
+                  value:
+                      '${temperatureScalePreferenceState.state == TemperatureScale.celsius ? weatherState.forecastObject?.current?.tempC : weatherState.forecastObject?.current?.tempF}',
+                  unit: '°${temperatureScalePreferenceState.state.unit}',
                 ),
                 const SizedBox(height: 24),
                 BarometerItem(

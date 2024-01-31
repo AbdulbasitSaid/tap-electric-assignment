@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weathet_app/di/di.dart';
-import 'package:weathet_app/features/weather/weather.dart';
+import 'package:weathet_app/features/weather/cubits/weather.dart';
 import 'package:weathet_app/ui/widgets/decorated_card.dart';
 
 class Search extends StatefulWidget {

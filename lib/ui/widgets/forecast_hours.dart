@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weathet_app/features/weather/weather.dart';
+import 'package:weathet_app/features/weather/cubits/weather.dart';
 import 'package:weathet_app/utils/constants.dart';
 
 class ForecastHours extends StatelessWidget {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:weathet_app/features/weather/weather.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weathet_app/di/di.dart';
+import 'package:weathet_app/features/weather/cubits/temprature_scale_preference_cubit.dart';
+import 'package:weathet_app/features/weather/cubits/weather.dart';
 import 'package:weathet_app/utils/constants.dart';
 import 'package:weathet_app/utils/helpers.dart';
 
@@ -9,6 +12,8 @@ class CityInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? url = makeUri(state.forecastObject);
+    final temperatureScalePreferenceState =
+        context.watch<TemperatureScalePreferenceCubit>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -33,14 +38,21 @@ class CityInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            appText(
-              size: 60,
-              text: '${state.forecastObject?.current?.tempC?.round()}°',
+            InkWell(
+              onTap: () => {
+                getIt<TemperatureScalePreferenceCubit>().onSubmitChangeScale()
+              },
+              child: appText(
+                size: 60,
+                text:
+                    '${temperatureScalePreferenceState.state == TemperatureScale.celsius ? state.forecastObject?.current?.tempC?.round() : state.forecastObject?.current?.tempF?.round()}°',
+              ),
             ),
             appText(
                 size: 30,
                 color: Colors.black45,
-                text: '${state.forecastObject?.current?.tempF?.round()}°')
+                text:
+                    '${temperatureScalePreferenceState.state == TemperatureScale.fahrenheit ? state.forecastObject?.current?.tempC?.round() : state.forecastObject?.current?.tempF?.round()}°')
           ],
         ),
       ],
