@@ -52,35 +52,25 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
                 child: SpinKitCubeGrid(color: Colors.blue, size: 80),
               );
             }
-            return const ViewWidget();
+            return SafeArea(
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  const Search(),
+                  const SizedBox(height: 30),
+                  CityInfo(
+                    state: weatherState,
+                  ),
+                  const SizedBox(height: 16),
+                  ForecastHours(state: weatherState),
+                  WindInformation(weatherState: weatherState),
+                  const SizedBox(height: 16),
+                  BarometerInfo(weatherState: weatherState),
+                ],
+              ),
+            );
           },
         ),
-      ),
-    );
-  }
-}
-
-class ViewWidget extends StatelessWidget {
-  const ViewWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final weatherState = context.watch<WeatherCubit>().state;
-    return SafeArea(
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          const Search(),
-          const SizedBox(height: 30),
-          CityInfo(
-            state: weatherState,
-          ),
-          const SizedBox(height: 16),
-          ForecastHours(state: weatherState),
-          WindInformation(weatherState: weatherState),
-          const SizedBox(height: 16),
-          BarometerInfo(weatherState: weatherState),
-        ],
       ),
     );
   }
