@@ -1,6 +1,6 @@
-import 'package:weathet_app/data/models/weather_forecast_hourly.dart';
+import '../data/models/weather/weather_models.dart';
 
-String? makeUri(WeatherForecastModel? model) {
+String? makeUri(WeatherForecast? model) {
   return model?.current!.condition?.icon != null
       ? 'https://${((model?.current!.condition?.icon).toString().substring(2)).replaceAll("64", "128")}'
       : null;

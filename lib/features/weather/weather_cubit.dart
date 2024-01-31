@@ -7,9 +7,9 @@ class WeatherCubit extends Cubit<WeatherState> {
         super(WeatherInitial());
 
   final WeatherRepository _repository;
-  WeatherForecastModel? _forecastObject;
+  WeatherForecast? _forecastObject;
 
-  WeatherForecastModel? get forecastObject => _forecastObject;
+  WeatherForecast? get forecastObject => _forecastObject;
 
   String cityName = '';
 
