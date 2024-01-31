@@ -23,10 +23,13 @@ Please send the resulting code via Git or zip to <q@tapelectric.app> and <nico@t
     src="https://user-images.githubusercontent.com/101565812/169255578-c60cc40b-aafa-4dc0-9db2-30f9850efb74.jpg" >
 </p>
 
-## Attempted refactor and improvements
+## Attempted refactoring and improvements
 
 - [x] Extend temperature feature by toggle(C to F)
 - [x] complete UI
 - [x] refactor models
 - [ ] add test
 - [ ] add test coverage
+
+## Note
+before running the code, cp .env.example .env and add your API key.
