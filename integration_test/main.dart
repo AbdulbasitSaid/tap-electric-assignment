@@ -8,7 +8,7 @@ import 'package:weathet_app/data/models/models.dart';
 import 'package:weathet_app/data/repositories/weather_repository.dart';
 import 'package:weathet_app/di/di.dart';
 import 'package:weathet_app/features/weather/weather.dart';
-import 'package:weathet_app/ui/widgets/app/my_app.dart';
+import 'package:weathet_app/ui/app/my_app.dart';
 
 class MockWeatherRepository extends Mock implements WeatherRepository {}
 
